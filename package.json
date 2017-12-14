@@ -1,0 +1,34 @@
+{
+  "name": "mn-senate-constituent-contact-form",
+  "version": "1.0.0",
+  "description": "Constituents need an easier way to contact their Senators via the web.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skwid138/MN-Senate-Constituent-Contact-Form.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Javascript",
+    "Express",
+    "AngularJS"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skwid138/MN-Senate-Constituent-Contact-Form/"
+  },
+  "homepage": "https://github.com/skwid138/MN-Senate-Constituent-Contact-Form",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "path": "^0.12.7"
+  },
+  "author": {
+    "name": "Hunter Rancourt",
+    "email": "hunter@rancourt.pro"
+  }
+}
