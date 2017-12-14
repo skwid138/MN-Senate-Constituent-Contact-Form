@@ -5,7 +5,7 @@ This controller is for the home view.
 -  
 */
 
-myApp.controller('HomeController', function (GithubService, MailService, $mdDialog) {
+myApp.controller('HomeController', function () {
     console.log('in HomeController');
     const vm = this;
 
