@@ -26,7 +26,8 @@
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "nodemailer": "^4.4.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pg": "^7.4.0"
   },
   "author": {
     "name": "Hunter Rancourt",

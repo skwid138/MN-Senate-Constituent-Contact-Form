@@ -29,20 +29,20 @@ const transporter = nodemailer.createTransport({
 router.post('/', (req, res) => {
     console.log('in mail / post');
 
-    // name
+    // Constituent's name
     const name = {
         first : req.body.firstName,
         last : req.body.lastName
     }; // end name
-    // email string
+    // Constituent's email string
     const emailAddress = req.body.email;
     // message string
     const message = req.body.message;
     // subject string
     const subject = req.body.subject; // may want to make this static
-    // phone number string
+    // Constituent's phone number string
     const phoneNumber = req.body.phoneNumber;
-    // mailing address object
+    // Constituent's mailing address object
     const mailAddress = {
         streetOne : req.body.streetOne,
         streetTwo : req.body.streetTwo,
@@ -50,7 +50,8 @@ router.post('/', (req, res) => {
         state : req.body.state,
         zip : req.body.zip
     }; // end mailAddress
-    const senator = req.body.senator;
+    // Senator's email address
+    const senatorEmail = req.body.senatorEmail;
 
     // object to send
     const mailConfig = {
@@ -59,6 +60,13 @@ router.post('/', (req, res) => {
         subject: subject,
         html: '<p>' + message + '</p>'
     }; // end mailConfig
+
+
+    /*
+    need to setup DB route to add row with Constituent's data
+
+    */
+
 
     // send message using the above information
     transporter.sendMail(mailConfig, function (err, info) {
