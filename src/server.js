@@ -16,9 +16,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./src/public'));
 
 // route requires
+const mailRouter = require('./routes/mail.router');
 const indexRouter = require('./routes/index.router');
 
 // use routes
+app.use('/mail', mailRouter);
 
 app.use('/', indexRouter); // catch all must be last
 
