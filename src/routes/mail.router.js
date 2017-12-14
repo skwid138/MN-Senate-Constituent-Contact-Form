@@ -3,8 +3,12 @@
 // requires
 const express = require('express');
 const router = express.Router();
+// nodemailer module
 const nodemailer = require('nodemailer');
+// environment variables
 require('dotenv').config();
+// database pool
+const pool = require('../modules/pool');
 
 // user credentials for node mailer - currently using my personal domain email
 const contactCredentials = {
