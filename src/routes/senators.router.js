@@ -15,26 +15,27 @@ const express = require('express');
 const router = express.Router();
 // environment variables
 require('dotenv').config();
-// civicFilter Module
-const civicFilter = require('../modules/civicFilter.module');
+// officialsFilter Module
+const officialsFilter = require('../modules/officialsFilter.module');
 
 // Google API Key brought in through environment variables
 const apiKey = process.env.GOOGLE_API;
 
-// google civic URI with representative route
-const civicURI = 'hhttps://www.googleapis.com/civicinfo/v2/representatives/ocd-division%2F' +
-'country%3Aus%2Fstate%3Amn?levels=administrativeArea1&recursive=true&roles=legislatorUpperBody&key=';
+// google civic URI, filtering out MN state senators and their contact information.
+const civicURI = 'https://www.googleapis.com/civicinfo/v2/representatives/ocd-division' + 
+'%2Fcountry%3Aus%2Fstate%3Amn?levels=administrativeArea1&recursive=true&roles=legislatorUpperBody' +
+'&fields=offices(name%2CofficialIndices)%2Cofficials(emails%2Cname%2Cparty%2Cphones%2CphotoUrl%2Curls)&key=';
 
 // concatenate the URI with the API key
 const civicRoute = civicURI + apiKey;
 
+// may need to nest this inside another route
 // get route for senators data
 router.get(civicRoute, (request, response) => {
     console.log('in senators get API call');
+
     res.status(200).send(response);
 }); // end get
-
-// function for filtering
 
 // export
 module.exports = router;

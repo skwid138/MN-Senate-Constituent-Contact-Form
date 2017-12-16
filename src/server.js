@@ -17,10 +17,12 @@ app.use(express.static('./src/public'));
 
 // route requires
 const mailRouter = require('./routes/mail.router');
+const senatorsRouter = require('./routes/senators.router');
 const indexRouter = require('./routes/index.router');
 
 // use routes
 app.use('/mail', mailRouter);
+app.use('/senators', senatorsRouter);
 
 app.use('/', indexRouter); // catch all must be last
 
