@@ -1,5 +1,9 @@
 /*jshint esversion: 6 */
 
+/*
+This route serves the index.html to the client
+*/
+
 // requires
 const express = require('express');
 const router = express.Router();
