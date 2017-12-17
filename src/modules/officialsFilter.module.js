@@ -24,7 +24,7 @@ const filterSenators = (apiResponse) => {
         sortedArray.push(senator);
     }); // end forEach
 
-    // sort by district so 1-67
+    // sort by district so array is in order by district 1-67
     compare = (a, b) => {
         if (a.district < b.district) {
             return -1;
