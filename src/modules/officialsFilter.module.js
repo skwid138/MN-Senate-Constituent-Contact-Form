@@ -28,4 +28,3 @@ const filterSenators = (apiResponse) => {
 }; // end filterSenators
 
 module.exports = filterSenators;
-

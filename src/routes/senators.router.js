@@ -4,13 +4,13 @@
 // https://developers.google.com/civic-information/docs/v2/
 
 // APIs Explorer
-// https://developers.google.com/apis-explorer/#p/civicinfo/v2/civicinfo.representatives.representativeInfoByDivision?ocdId=ocd-division%252Fcountry%253Aus%252Fstate%253Amn&levels=administrativeArea1&recursive=true&roles=legislatorUpperBody&_h=2&resource=%257B%250A%257D&
+// https://developers.google.com/apis-explorer/#p/civicinfo/v2/civicinfo.representatives.representativeInfoByDivision?ocdId=ocd-division%252Fcountry%253Aus%252Fstate%253Amn&levels=administrativeArea1&recursive=true&roles=legislatorUpperBody&fields=offices(name%252CofficialIndices)%252Cofficials(emails%252Cname%252Cparty%252Cphones%252CphotoUrl%252Curls)&_h=9&resource=%257B%250A%257D&
 
 /*
 This route uses Google's civic API to gather senator information for the state of MN
 */
 
-// requires
+// required modules
 const express = require('express');
 const router = express.Router();
 // environment variables
@@ -30,10 +30,10 @@ const civicURI = 'https://www.googleapis.com/civicinfo/v2/representatives/ocd-di
 // concatenate the URI with the API key
 const civicRoute = civicURI + apiKey;
 
-
 // get route for senators data
 router.get('/', (req, res) => {
     console.log('in /senators get route');
+    // Google civic API call
     request(civicRoute, (error, response, body) => {
         // if error
         if(error) {
@@ -45,8 +45,6 @@ router.get('/', (req, res) => {
         } // end else
     }); // end request
 }); // end get route
-
-
 
 // export
 module.exports = router;

@@ -16,7 +16,7 @@ myApp.controller('HomeController', function ($http) {
     // test get
     vm.testAPI = () => {
         return $http.get('/senators').then((response) => {
-            console.log('response.data', response);
+            console.log('response.data', response.data);
         }); // end return
     }; // end testAPI
 
