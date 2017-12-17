@@ -15,6 +15,7 @@ const express = require('express');
 const router = express.Router();
 // environment variables
 require('dotenv').config();
+const request = require('request');
 // officialsFilter Module
 const officialsFilter = require('../modules/officialsFilter.module');
 
@@ -29,13 +30,21 @@ const civicURI = 'https://www.googleapis.com/civicinfo/v2/representatives/ocd-di
 // concatenate the URI with the API key
 const civicRoute = civicURI + apiKey;
 
-// may need to nest this inside another route
-// get route for senators data
-router.get(civicRoute, (request, response) => {
-    console.log('in senators get API call');
 
-    res.status(200).send(response);
-}); // end get
+// get route for senators data
+router.get('/', (req, res) => {
+    console.log('in /senators get route');
+    request(civicRoute, (error, response, body) => {
+        // if error
+        if(error) {
+            res.sendStatus(500);
+        } else {
+            res.status(200).send(body);
+        } // end else
+    }); // end request
+}); // end get route
+
+
 
 // export
 module.exports = router;
