@@ -39,7 +39,9 @@ router.get('/', (req, res) => {
         if(error) {
             res.sendStatus(500);
         } else {
-            res.status(200).send(body);
+            // filter data and send to client
+            const senatorListSorted = officialsFilter(JSON.parse(body));
+            res.status(200).send(senatorListSorted);
         } // end else
     }); // end request
 }); // end get route

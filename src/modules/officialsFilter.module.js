@@ -1,23 +1,30 @@
 /*jshint esversion: 6 */
 
 /*
-This module takes a response from Google's civic API and filters it
-*/
-
-/* 
-response is an object with the following properties
-divisions - this has a property for each district with an object as a value
-offices - This appears to be each seat and it's corresponding district
-officials - an array of objects - this has a name property with social media and contact information for each representative
+This module takes a response from Google's civic API
+filters it, so the senator objects will now have their district as well
+returns an array of senator objects including which district they represent
 */
 
 const filterSenators = (apiResponse) => {
+    // empty array to hold new objects
+    const sortedArray = [];
 
-    // for office in apiResponse.data.offices
-    // office.officialIndicies[0] - this is the index of 
-    // the corresponding senator in apiResponse.data.officials
+    // for each district create an object with the 
+    // district name and senator of that district
+    // push the newly created object into an array
+    // return the new array of objects
+    apiResponse.offices.forEach((district) => {
+        // create a new object
+        let senator = {
+            // officialIndices is a number for the index of the corresponding senator in .officials
+            senator: apiResponse.officials[district.officialIndices[0]],
+            district: district.name
+        }; // end senator
+        sortedArray.push(senator);
+    }); // end forEach
 
-
+    return sortedArray;
 }; // end filterSenators
 
 module.exports = filterSenators;
