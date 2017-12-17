@@ -12,27 +12,65 @@
                     <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(0)">Search By Name</md-button>
                     <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(1)">Search By District</md-button>
                 </md-input-container>
-                <md-input-container ng-if="hc.showSearchName" flex layout="row" class="dropDown">
-                    <label>Choose By Name</label>
-                    <md-select ng-model="hc.senatorToContact" name="Name" flex>
-                        <md-option ng-repeat="senator in hc.senators.list" value="{{senator.senator.name}}">
-                            {{senator.senator.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-                <md-input-container ng-if="hc.showSearchDistrict" flex layout="row" class="dropDown">
-                    <label>Choose By District</label>
-                    <md-select ng-model="hc.senatorToContact" name="District" flex>
-                        <md-option ng-repeat="senator in hc.senators.list" value="{{senator.district}}">
-                            District: {{senator.district}} - {{senator.senator.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
+
+                <div layout-gt-sm="row" layout="column" flex class="dropDown">
+                    <md-input-container ng-if="hc.showSearchName" flex>
+                        <label>Choose By Name</label>
+                        <md-select ng-model="hc.senatorToContact" name="Name" flex>
+                            <md-option ng-repeat="senator in hc.senators.list" value="{{senator}}">
+                                {{senator.senator.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container ng-if="hc.showSearchDistrict" flex>
+                        <label>Choose By District</label>
+                        <md-select ng-model="hc.senatorToContact" name="District" flex>
+                            <md-option ng-repeat="senator in hc.senators.list" value="{{senator}}">
+                                District: {{senator.district}} - {{senator.senator.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-card flex ng-if="hc.senatorToContact">
+                        <p>{{hc.senatorToContact}}</p>
+                    </md-card>
+                </div>
             </md-card-content>
             <md-card-actions>
-                <form ng-if="hc.senatorToContact" name="mailForm">
-                    <p>form</p>
-                    <md-button class="md-raised" type="submit" ng-click="sendMessage()">Send!</md-button>
+                <form ng-if="hc.senatorToContact" name="mailForm" layout="column" flex>
+
+                    <div layout-gt-xs="row" layout="column" flex>
+                        <md-input-container flex>
+                            <label>First Name</label>
+                            <input ng-model="hc.message.firstName" name="firstName">
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Last Name</label>
+                            <input ng-model="hc.message.lastName" name="lastName">
+                        </md-input-container>
+                    </div>
+                    
+                    <div layout-gt-xs="row" layout="column" flex>
+                        <md-input-container flex>
+                            <label>Email Address</label>
+                            <input ng-model="hc.message.email" name="email">
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Subject</label>
+                            <input ng-model="hc.message.subject" name="subject">
+                        </md-input-container>
+                    </div>
+                    
+
+                    <md-input-container>
+                        <label>Message</label>
+                        <textarea name="message" ng-model="hc.message.message" md-maxlength="1000" rows="5" md-select-on-focus></textarea>
+                        <div ng-messages="mailForm.message.$error" role="alert">
+                            <div ng-message="md-maxlength" class="my-message">Message should be less than 1000 characters!</div>
+                        </div>
+                    </md-input-container>
+
+
+                    <md-button class="md-raised md-primary" type="submit" ng-click="sendMessage()">Send!</md-button>
                 </form>
             </md-card-actions>
             <md-card-footer>

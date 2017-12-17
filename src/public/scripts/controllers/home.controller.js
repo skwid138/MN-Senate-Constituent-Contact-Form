@@ -24,8 +24,6 @@ myApp.controller('HomeController', function ($http) {
         } // end else if
         // hide buttons
         vm.dropDownButton = false;
-        // set one of the two form variables to true
-        vm.showForm = true;
         // show reset/start over button
         vm.reset = true;
     }; // end showDropDown
@@ -48,7 +46,8 @@ myApp.controller('HomeController', function ($http) {
 
     // get senators information from Google's Civic API
     vm.getSenators = () => {
-        return $http.get('/senators').then((response) => {
+        return $http.get('/senators')
+            .then((response) => {
             console.log('response.data', response.data);
             vm.senators.list = response.data;
         }); // end return
@@ -56,7 +55,15 @@ myApp.controller('HomeController', function ($http) {
 
     // send message and store data points in Database
     vm.sendMessage = () => {
+        vm.message = {
+            // include captcha things
+        }; // end message
 
+        return $http.post('/mail', message)
+        .then((response) => {
+            // maybe use toast or mddialog to show message sent
+            vm.startOver();
+        }); // end return
     }; // end sendMessage
 
 
