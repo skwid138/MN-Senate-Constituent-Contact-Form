@@ -1,0 +1,40 @@
+<section>
+    <md-content layout="row" layout-align="center start">
+        <md-card layout="column" flex class="cardWidth">
+            <md-card-title flex layout="column">
+                <md-card-title-text flex layout="column" layout-align="center center">
+                    <span class="md-display-3 centerText">Minnesota State Senate</span>
+                    <span class="md-title">Constituent Contact Form</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content flex layout="column" layout-align="center center">
+                <md-input-container flex layout-gt-xs="row" layout="column">
+                    <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(0)">Search By Name</md-button>
+                    <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(1)">Search By District</md-button>
+                </md-input-container>
+                <md-input-container ng-if="hc.showSearchName" flex layout="column">
+                    <label>Search By Name</label>
+                    <md-select ng-model="hc.senatorToContact" name="District">
+                        <md-option ng-repeat="senator in hc.senators.list" value="{{senator.senator.name}}">
+                            {{senator.senator.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container ng-if="hc.showSearchDistrict" flex layout="column">
+                    <label>Search By District</label>
+                    <md-select ng-model="hc.senatorToContact" name="District">
+                        <md-option ng-repeat="senator in hc.senators.list" value="{{senator.district}}">
+                            District: {{senator.district}} - {{senator.senator.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-card-content>
+            <md-card-actions>
+
+            </md-card-actions>
+            <md-card-footer>
+                <md-button ng-if="hc.reset" class="md-raised" ng-click="hc.startOver()">Reset and Start Over</md-button>
+            </md-card-footer>
+        </md-card>
+    </md-content>
+</section>
