@@ -24,15 +24,22 @@ myApp.controller('HomeController', function ($http) {
         } // end else if
         // hide buttons
         vm.dropDownButton = false;
+        // set one of the two form variables to true
+        vm.showForm = true;
         // show reset/start over button
         vm.reset = true;
     }; // end showDropDown
 
     // reset form and start from the beginning
     vm.startOver = () => {
+        // show buttons to choose how to find senator info
         vm.dropDownButton = true;
-        vm.showSearchName = false;
-        vm.showSearchDistrict = false;
+        // reset both drop down menus
+        delete vm.showSearchName;
+        delete vm.showSearchDistrict;
+        // if a senator was chosen reset it
+        delete vm.senatorToContact;
+        // hide reset button until form is used again
         vm.reset = false;
     }; // end startOver
 
@@ -45,7 +52,12 @@ myApp.controller('HomeController', function ($http) {
             console.log('response.data', response.data);
             vm.senators.list = response.data;
         }); // end return
-    }; // end testAPI
+    }; // end getSenators
+
+    // send message and store data points in Database
+    vm.sendMessage = () => {
+
+    }; // end sendMessage
 
 
     /************** on page load **************/

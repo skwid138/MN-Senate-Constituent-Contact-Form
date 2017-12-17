@@ -6,3 +6,7 @@
 .cardWidth {
     max-width: 1000px;
 }
+
+.dropDown {
+    width: 100%;
+}

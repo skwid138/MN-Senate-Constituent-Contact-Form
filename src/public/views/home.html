@@ -12,17 +12,17 @@
                     <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(0)">Search By Name</md-button>
                     <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(1)">Search By District</md-button>
                 </md-input-container>
-                <md-input-container ng-if="hc.showSearchName" flex layout="column">
-                    <label>Search By Name</label>
-                    <md-select ng-model="hc.senatorToContact" name="District">
+                <md-input-container ng-if="hc.showSearchName" flex layout="row" class="dropDown">
+                    <label>Choose By Name</label>
+                    <md-select ng-model="hc.senatorToContact" name="Name" flex>
                         <md-option ng-repeat="senator in hc.senators.list" value="{{senator.senator.name}}">
                             {{senator.senator.name}}
                         </md-option>
                     </md-select>
                 </md-input-container>
-                <md-input-container ng-if="hc.showSearchDistrict" flex layout="column">
-                    <label>Search By District</label>
-                    <md-select ng-model="hc.senatorToContact" name="District">
+                <md-input-container ng-if="hc.showSearchDistrict" flex layout="row" class="dropDown">
+                    <label>Choose By District</label>
+                    <md-select ng-model="hc.senatorToContact" name="District" flex>
                         <md-option ng-repeat="senator in hc.senators.list" value="{{senator.district}}">
                             District: {{senator.district}} - {{senator.senator.name}}
                         </md-option>
@@ -30,7 +30,10 @@
                 </md-input-container>
             </md-card-content>
             <md-card-actions>
-
+                <form ng-if="hc.senatorToContact" name="mailForm">
+                    <p>form</p>
+                    <md-button class="md-raised" type="submit" ng-click="sendMessage()">Send!</md-button>
+                </form>
             </md-card-actions>
             <md-card-footer>
                 <md-button ng-if="hc.reset" class="md-raised" ng-click="hc.startOver()">Reset and Start Over</md-button>
