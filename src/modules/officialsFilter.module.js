@@ -19,10 +19,22 @@ const filterSenators = (apiResponse) => {
         let senator = {
             // officialIndices is a number for the index of the corresponding senator in .officials
             senator: apiResponse.officials[district.officialIndices[0]],
-            district: Number(district.name.slice(26))
+            district: Number(district.name.slice(25))
         }; // end senator
         sortedArray.push(senator);
     }); // end forEach
+
+    // sort by district so 1-67
+    compare = (a, b) => {
+        if (a.district < b.district) {
+            return -1;
+        }else if (a.district > b.district) {
+            return 1;
+        } else {
+            return 0;
+        } // end else     
+    }; // end compare
+    sortedArray.sort(compare);
 
     return sortedArray;
 }; // end filterSenators
