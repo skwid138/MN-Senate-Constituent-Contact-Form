@@ -5,9 +5,12 @@ This controller is for the home view.
 -  
 */
 
-myApp.controller('HomeController', function ($http) {
+myApp.controller('HomeController', function ($http, vcRecaptchaService) {
     console.log('in HomeController');
     const vm = this;
+
+    //reCaptcha key
+    vm.publicKey = '6LdcUz0UAAAAAKDt_Tc7bGGELcPJu10P4IEaP9t_';
 
     // object to hold senators information
     vm.senators = {};

@@ -74,6 +74,9 @@
                 </form>
             </md-card-actions>
             <md-card-footer>
+                <p ng-if="hc.reset">captcha stuff here</p>
+                <!--Recaptcha Widget -->
+                <div vc-recaptcha key="hc.publicKey"></div>
                 <md-button ng-if="hc.reset" class="md-raised" ng-click="hc.startOver()">Reset and Start Over</md-button>
             </md-card-footer>
         </md-card>
