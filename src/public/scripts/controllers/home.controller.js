@@ -11,12 +11,18 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
 
     //reCaptcha key
     vm.publicKey = '6LdcUz0UAAAAAKDt_Tc7bGGELcPJu10P4IEaP9t_';
+    vm.testKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
     // object to hold senators information
     vm.senators = {};
 
     // boolean for showing dropDown buttons
     vm.dropDownButton = true;
+
+    // convert JSON to JS
+    vm.convertSenator = (senator) => {
+        return vm.senatorCard = JSON.parse(senator);
+    }; // end convertSenator
 
     // click event for showing search drop down
     vm.showDropDown = (buttonId) => {
@@ -40,6 +46,7 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
         delete vm.showSearchDistrict;
         // if a senator was chosen reset it
         delete vm.senatorToContact;
+        delete vm.senatorCard;
         // hide reset button until form is used again
         vm.reset = false;
     }; // end startOver
