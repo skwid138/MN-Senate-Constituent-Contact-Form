@@ -66,11 +66,19 @@
                     <div layout-gt-xs="row" layout="column" flex>
                         <md-input-container flex>
                             <label>First Name</label>
-                            <input ng-model="hc.message.firstName" name="firstName" required>
+                            <input ng-model="hc.message.firstName" name="firstName" required minlength="2">
+                            <div ng-messages="mailForm.firstName.$error" role="alert">
+                                <div ng-message="minlength" class="my-message">Please enter your entire first name.</div>
+                                <div ng-message="required" class="my-message">This is required!</div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex>
                             <label>Last Name</label>
-                            <input ng-model="hc.message.lastName" name="lastName" required>
+                            <input ng-model="hc.message.lastName" name="lastName" required minlength="2">
+                            <div ng-messages="mailForm.lastName.$error" role="alert">
+                                <div ng-message="minlength" class="my-message">Please enter your entire last name.</div>
+                                <div ng-message="required" class="my-message">This is required!</div>
+                            </div>
                         </md-input-container>
                     </div>
                     
@@ -78,28 +86,44 @@
                         <md-input-container flex>
                             <label>Email Address</label>
                             <input ng-model="hc.message.email" name="email" type="email" required>
+                            <div ng-messages="mailForm.email.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required!</div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex>
                             <label>Phone Number</label>
-                            <input ng-model="hc.message.phone" name="phone" required>
+                            <input ng-model="hc.message.phone" name="phone" required type="number" minlength="7">
+                            <div ng-messages="mailForm.phone.$error" role="alert">
+                                <div ng-message="minlength" class="my-message">Please enter your entire phone number, including the area code.</div>
+                                <!-- <div ng-message="md-maxlength" class="my-message">That doesn't look like a valid phone number.</div> -->
+                                <div ng-message="required" class="my-message">This is required!</div>
+                            </div>
                         </md-input-container>
                     </div>
 
                     <div layout="column" flex>
                         <md-input-container flex>
                             <label>Street Address 1</label>
-                            <input ng-model="hc.message.streetOne" name="streetOne" required>
+                            <input ng-model="hc.message.streetOne" name="streetOne" required minlength="5">
+                            <div ng-messages="mailForm.streetOne.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required!</div>
+                                <div ng-message="minlength" class="my-message">Please enter your entire street name.</div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex>
                             <label>Street Address 2</label>
-                            <input ng-model="hc.message.streetTwo" name="streetTwo" required>
+                            <input ng-model="hc.message.streetTwo" name="streetTwo">
                         </md-input-container>
                     </div>
 
                     <div layout-gt-xs="row" layout="column" flex>
                         <md-input-container flex>
                             <label>City</label>
-                            <input ng-model="hc.message.city" name="city" required>
+                            <input ng-model="hc.message.city" name="city" required minlength="3">
+                            <div ng-messages="mailForm.city.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required!</div>
+                                <div ng-message="minlength" class="my-message">Please enter a valid city name.</div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex flex-gt-xs="20">
                             <label>State</label>
@@ -107,27 +131,41 @@
                                 <md-option ng-repeat="state in hc.states" value="{{state.abbrev}}">
                                     {{state.abbrev}}
                                 </md-option>
+                            </md-select>
+                            <div ng-messages="mailForm.state.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required!</div>
+                            </div>
                         </md-input-container>
                         <md-input-container flex flex-gt-xs="25">
                             <label>Zip Code</label>
-                            <input ng-model="hc.message.zip" name="zip" required>
+                            <input ng-model="hc.message.zip" name="zip" required ng-pattern="/^[0-9]{5}$/" md-maxlength="5" type="number">
+                            <div ng-messages="mailForm.zip.$error" role="alert">
+                                <div ng-message="pattern" class="my-message">That doesn't look like a valid postal code.</div>
+                                <div ng-message="required" class="my-message">This is required!</div>
+                            </div>
                         </md-input-container>
                     </div>
 
                     <md-input-container flex>
                         <label>Subject</label>
-                        <input ng-model="hc.message.subject" name="subject" required>
+                        <input ng-model="hc.message.subject" name="subject" required minlength="3">
+                        <div ng-messages="mailForm.subject.$error" role="alert">
+                            <div ng-message="minlength" class="my-message">Please enter a more detailed subject.</div>
+                            <div ng-message="required" class="my-message">This is required!</div>
+                        </div>
                     </md-input-container>
                     <md-input-container>
                         <label>Message</label>
-                        <textarea name="message" ng-model="hc.message.message" md-maxlength="1000" rows="5" md-select-on-focus required></textarea>
+                        <textarea name="message" ng-model="hc.message.message" md-maxlength="1000" minlength="10" rows="5" md-select-on-focus required></textarea>
                         <div ng-messages="mailForm.message.$error" role="alert">
                             <div ng-message="md-maxlength" class="my-message">Message should be less than 1000 characters!</div>
+                            <div ng-message="minlength" class="my-message">Please enter a more detailed message.</div>
+                            <div ng-message="required" class="my-message">This is required!</div>
                         </div>
                     </md-input-container>
 
                     <!--Recaptcha Widget -->            
-                    <div vc-recaptcha key="hc.publicKey" layout-margin></div>
+                    <div vc-recaptcha key="hc.publicKey" layout-margin on-create="hc.onWidgetCreate(widgetId)"></div>
 
                     <md-button class="md-raised md-primary" type="submit" ng-click="hc.sendMessage()">Send!</md-button>
                 </form>

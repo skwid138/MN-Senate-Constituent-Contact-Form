@@ -8,7 +8,7 @@ This controller is for the home view.
 - users send input to database and to mail route to be sent to senator
 */
 
-myApp.controller('HomeController', function ($http, vcRecaptchaService) {
+myApp.controller('HomeController', function ($http, vcRecaptchaService, $mdToast) {
     console.log('in HomeController');
     const vm = this;
 
@@ -24,11 +24,9 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
 
     // message object to post
     vm.message = {
-        // include captcha thing
     }; // end message
 
-    // if google API doesn't have senator's email use defaultEmail
-    vm.message.senatorEmail = vm.message.senatorEmail ? vm.senatorCard.senator.emails[0] : defaultEmail;
+    
 
     // boolean for showing dropDown buttons
     vm.dropDownButton = true;
@@ -61,17 +59,36 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
         // if a senator was chosen reset it
         delete vm.senatorToContact;
         delete vm.senatorCard;
+        // clear out message object
+        vm.message = {};
+        // reset Captcha
+        vcRecaptchaService.reload(vm.widgetId);
         // hide reset button until form is used again
         vm.reset = false;
     }; // end startOver
 
-    // list of states to display on DOM in drop down menu
+    // list of states to display in drop down menu
     vm.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
         'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY')
         .split(' ').map((state) => {
             return { abbrev: state };
         } // end map
     ); // end states
+
+    // toast icon appears after message sent
+    vm.showToast = () => {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent('Message Sent!')
+                .position('bottom right')
+                .hideDelay(4000)
+        ); // end mdtoast
+    }; // end showToast
+
+    // Get the widgetId when the recaptcha instance is created via onCreate callback
+    vm.onWidgetCreate = function (_widgetId) {
+        vm.widgetId = _widgetId;
+    }; // end onWidgetCreate
 
 
     /************** $http **************/
@@ -87,20 +104,21 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
 
     // send message and store data points in Database
     vm.sendMessage = () => {
-        
         // if string is empty
         if (vcRecaptchaService.getResponse() === "") { 
             // convert to mddialog
             alert("Please resolve the captcha and submit!");
         } else {
             vm.message['g-recaptcha-response'] = vcRecaptchaService.getResponse();
-        }
+        } // end else
 
-       
-
+        // if google API doesn't have senator's email use defaultEmail
+        vm.message.senatorEmail = vm.message.senatorEmail ? vm.senatorCard.senator.emails[0] : defaultEmail;
         return $http.post('/mail', vm.message)
         .then((response) => {
-            // maybe use toast or mddialog to show message sent
+            //show Toast
+            vm.showToast();
+            // reset page
             vm.startOver();
         }); // end return
     }; // end sendMessage
@@ -108,7 +126,7 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
 
     /************** on page load **************/
 
-    // see what data is returned
+    // get senator data from google
     vm.getSenators();
 
 }); // end HomeController
