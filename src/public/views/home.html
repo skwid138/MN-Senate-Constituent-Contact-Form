@@ -5,13 +5,13 @@
                 <md-card-title-text flex layout="column" layout-align="center center">
                     <span class="md-display-3 centerText">Minnesota State Senate</span>
                     <span class="md-title">Constituent Contact Form</span>
+                    <md-button ng-if="hc.reset" class="md-raised" ng-click="hc.startOver()">Reset and Start Over</md-button>
                 </md-card-title-text>
             </md-card-title>
             <md-card-content flex layout="column" layout-align="center center">
                 <md-input-container flex layout-gt-xs="row" layout="column">
                     <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(0)">Search By Name</md-button>
                     <md-button ng-if="hc.dropDownButton" class="md-raised md-warn" ng-click="hc.showDropDown(1)">Search By District</md-button>
-                    <md-button ng-if="hc.reset" class="md-raised" ng-click="hc.startOver()">Reset and Start Over</md-button>
                 </md-input-container>
 
                 <div layout="row" flex class="dropDown" layout-align="center center">
@@ -66,28 +66,31 @@
                     <div layout-gt-xs="row" layout="column" flex>
                         <md-input-container flex>
                             <label>First Name</label>
-                            <input ng-model="hc.message.firstName" name="firstName">
+                            <input ng-model="hc.message.firstName" name="firstName" required>
                         </md-input-container>
                         <md-input-container flex>
                             <label>Last Name</label>
-                            <input ng-model="hc.message.lastName" name="lastName">
+                            <input ng-model="hc.message.lastName" name="lastName" required>
                         </md-input-container>
                     </div>
                     
                     <div layout-gt-xs="row" layout="column" flex>
                         <md-input-container flex>
                             <label>Email Address</label>
-                            <input ng-model="hc.message.email" name="email">
+                            <input ng-model="hc.message.email" name="email" type="email" required>
                         </md-input-container>
                         <md-input-container flex>
-                            <label>Subject</label>
-                            <input ng-model="hc.message.subject" name="subject">
+                            <label>Phone Number</label>
+                            <input ng-model="hc.message.phone" name="phone" required>
                         </md-input-container>
                     </div>
-                    
+                    <md-input-container flex>
+                        <label>Subject</label>
+                        <input ng-model="hc.message.subject" name="subject" required>
+                    </md-input-container>
                     <md-input-container>
                         <label>Message</label>
-                        <textarea name="message" ng-model="hc.message.message" md-maxlength="1000" rows="5" md-select-on-focus></textarea>
+                        <textarea name="message" ng-model="hc.message.message" md-maxlength="1000" rows="5" md-select-on-focus required></textarea>
                         <div ng-messages="mailForm.message.$error" role="alert">
                             <div ng-message="md-maxlength" class="my-message">Message should be less than 1000 characters!</div>
                         </div>
@@ -98,7 +101,7 @@
                     
                     <div vc-recaptcha key="hc.testKey" layout-margin></div>
 
-                    <md-button class="md-raised md-primary" type="submit" ng-click="sendMessage()">Send!</md-button>
+                    <md-button class="md-raised md-primary" type="submit" ng-click="hc.sendMessage()">Send!</md-button>
                 </form>
             </md-card-actions>
             <md-card-footer>

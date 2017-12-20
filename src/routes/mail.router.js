@@ -55,7 +55,7 @@ router.post('/', (req, res) => {
         // subject string
         const subject = req.body.subject; // may want to make this static
         // Constituent's phone number string
-        const phoneNumber = req.body.phoneNumber;
+        const phoneNumber = req.body.phone;
         // Constituent's mailing address object
         const mailAddress = {
             streetOne: req.body.streetOne,
