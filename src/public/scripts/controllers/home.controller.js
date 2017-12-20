@@ -2,7 +2,10 @@
 
 /*
 This controller is for the home view.
--  
+-  users can select a method for finding a senator
+- senator information is displayed
+- form captures user input
+- users send input to database and to mail route to be sent to senator
 */
 
 myApp.controller('HomeController', function ($http, vcRecaptchaService) {
@@ -16,17 +19,19 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
     // object to hold senators information
     vm.senators = {};
 
-    // boolean for showing dropDown buttons
-    vm.dropDownButton = true;
-    // 
+    // email to send to if google API doesn't pull an email for senator 
     const defaultEmail = 'hunter@rancourt.pro';
 
     // message object to post
     vm.message = {
         // include captcha thing
     }; // end message
-    // set message variable
+
+    // if google API doesn't have senator's email use defaultEmail
     vm.message.senatorEmail = vm.message.senatorEmail ? vm.senatorCard.senator.emails[0] : defaultEmail;
+
+    // boolean for showing dropDown buttons
+    vm.dropDownButton = true;
 
     // convert JSON to JS
     vm.convertSenator = (senator) => {
@@ -60,6 +65,14 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
         vm.reset = false;
     }; // end startOver
 
+    // list of states to display on DOM in drop down menu
+    vm.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
+        'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY')
+        .split(' ').map((state) => {
+            return { abbrev: state };
+        } // end map
+    ); // end states
+
 
     /************** $http **************/
 
@@ -74,12 +87,14 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
 
     // send message and store data points in Database
     vm.sendMessage = () => {
-        // if google API doesn't have senator's email use below email
-        // if (!vm.senatorCard.senator.emails[0]){
-        //     vm.message.senatorEmail = 'hunter@rancourt.pro';
-        // } else {
-        //     vm.message.senatorEmail = vm.senatorCard.senator.emails[0];
-        // }
+        
+        // if string is empty
+        if (vcRecaptchaService.getResponse() === "") { 
+            // convert to mddialog
+            alert("Please resolve the captcha and submit!");
+        } else {
+            vm.message['g-recaptcha-response'] = vcRecaptchaService.getResponse();
+        }
 
        
 

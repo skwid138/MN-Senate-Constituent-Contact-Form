@@ -1,5 +1,7 @@
 /*jshint esversion: 6 */
 
+// required
+const request = require('request');
 // environment variables
 require('dotenv').config();
 
@@ -19,23 +21,13 @@ const captchaStatus = (reCaptcha, ip) => {
 
     // if its blank or null the user has not selected the captcha, so return an error
     if (reCaptcha === undefined || reCaptcha === '' || reCaptcha === null) {
-        return { "responseCode": 1, "responseDesc": "Please select captcha" };
+        return { responseCode: 1, responseDesc: 'Please select captcha' };
     } // end if
 
-    
-
     // Google will respond with success or error scenario.
-    request(verificationUrl, function (error, response, body) {
-        body = JSON.parse(body);
-        // if captcha success is false or undefined
-        if (body.success !== undefined && !body.success) {
-            return { "responseCode": 1, "responseDesc": "Failed captcha verification" };
-        } // end if
-        // captcha success is true
-        return{ "responseCode": 0, "responseDesc": "Success" };
-    }); // end request
+    return request(verificationUrl, function (error, response, body) {});
+        
 }; // end captchaStatus
-
 
 // export
 module.exports = captchaStatus;

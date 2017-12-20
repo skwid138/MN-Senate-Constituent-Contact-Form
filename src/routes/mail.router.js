@@ -3,21 +3,21 @@
 // required modules
 const express = require('express');
 const router = express.Router();
+const request = require('request');
 // nodemailer module
 const nodemailer = require('nodemailer');
 // environment variables
 require('dotenv').config();
 // database pool
 const pool = require('../modules/pool');
-// captcha module
-const captcha = require('../modules/captcha.module');
+// secret key
+const secretKey = process.env.SECRET;
 
 // user credentials for node mailer - currently using my personal domain email
 const contactCredentials = {
     username: process.env.EMAIL_UN,
     pw: process.env.EMAIL_PW
 }; // end contactCredentials
-
 
 // setup email configuration - currently using my personal
 const transporter = nodemailer.createTransport({
@@ -34,15 +34,28 @@ const transporter = nodemailer.createTransport({
 // and saving the Constituent's contact information in the DB
 router.post('/', (req, res) => {
     console.log('in mail / post');
+    // captcha status
+    let captchaStatus = {};
 
-    const captchaResponse = req.body['g-recaptcha-response'];
+    const reCaptcha = req.body['g-recaptcha-response'];
     const ip = req.connection.remoteAddress;
-    // check captcha
-    const captchaStatus = captcha(captchaResponse, ip);
+    // req.connection.remoteAddress will provide IP address of connected user.
+    const verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + reCaptcha + "&remoteip=" + ip;
 
-    // if captcha successful
-    if (captchaStatus.responseCode === 0) {
-
+    // if its blank or null the user has not selected the captcha, so return an error
+    if (reCaptcha === undefined || reCaptcha === '' || reCaptcha === null) {
+        return { responseCode: 1, responseDesc: 'Please select captcha' };
+    } // end if
+    
+    // Google will respond with success or an error
+    request(verificationUrl, function (error, response, body) {
+        body = JSON.parse(body);
+        // if captcha success is false or undefined
+        if (body.success !== undefined && !body.success) {
+            return res.status(500).json({ "responseCode": 1, "responseDesc": "Failed captcha verification" });
+        } // end if
+        // captcha success is true
+        
         // Constituent's name
         const name = {
             first: req.body.firstName,
@@ -92,11 +105,8 @@ router.post('/', (req, res) => {
                 res.sendStatus(200);
             } // end else
         }); // end message
-
-    } else {
-        // send 500 error and captcha error
-        res.status(500).json(captchaStatus);
-    } // end else
+        
+    }); // end request
 }); // end post
 
 // export

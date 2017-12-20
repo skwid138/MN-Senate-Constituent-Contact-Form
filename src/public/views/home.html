@@ -84,6 +84,36 @@
                             <input ng-model="hc.message.phone" name="phone" required>
                         </md-input-container>
                     </div>
+
+                    <div layout="column" flex>
+                        <md-input-container flex>
+                            <label>Street Address 1</label>
+                            <input ng-model="hc.message.streetOne" name="streetOne" required>
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label>Street Address 2</label>
+                            <input ng-model="hc.message.streetTwo" name="streetTwo" required>
+                        </md-input-container>
+                    </div>
+
+                    <div layout-gt-xs="row" layout="column" flex>
+                        <md-input-container flex>
+                            <label>City</label>
+                            <input ng-model="hc.message.city" name="city" required>
+                        </md-input-container>
+                        <md-input-container flex flex-gt-xs="20">
+                            <label>State</label>
+                            <md-select ng-model="hc.message.state" name="state" required>
+                                <md-option ng-repeat="state in hc.states" value="{{state.abbrev}}">
+                                    {{state.abbrev}}
+                                </md-option>
+                        </md-input-container>
+                        <md-input-container flex flex-gt-xs="25">
+                            <label>Zip Code</label>
+                            <input ng-model="hc.message.zip" name="zip" required>
+                        </md-input-container>
+                    </div>
+
                     <md-input-container flex>
                         <label>Subject</label>
                         <input ng-model="hc.message.subject" name="subject" required>
@@ -96,10 +126,8 @@
                         </div>
                     </md-input-container>
 
-                    <!--Recaptcha Widget -->
-                    <!-- <div  class="g-recaptcha" data-sitekey="6LdcUz0UAAAAAKDt_Tc7bGGELcPJu10P4IEaP9t_"></div> -->
-                    
-                    <div vc-recaptcha key="hc.testKey" layout-margin></div>
+                    <!--Recaptcha Widget -->            
+                    <div vc-recaptcha key="hc.publicKey" layout-margin></div>
 
                     <md-button class="md-raised md-primary" type="submit" ng-click="hc.sendMessage()">Send!</md-button>
                 </form>
