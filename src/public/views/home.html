@@ -14,7 +14,7 @@
                     <md-button ng-if="hc.reset" class="md-raised" ng-click="hc.startOver()">Reset and Start Over</md-button>
                 </md-input-container>
 
-                <div layout-gt-sm="row" layout="column" flex class="dropDown" layout-align="center center">
+                <div layout="row" flex class="dropDown" layout-align="center center">
 
                     <md-input-container ng-if="hc.showSearchName && !hc.senatorCard" flex>
                         <label>Choose Senator By Name</label>
@@ -33,26 +33,32 @@
                             </md-option>
                         </md-select>
                     </md-input-container>
-
-                    <md-card flex layout-gt-xs="row" layout="column" ng-if="hc.senatorToContact" ng-init="hc.convertSenator(hc.senatorToContact)">
-
-                        <md-card-title flex layout="column">
-                            <md-card-title-text>
-                                <span class="md-title">{{hc.senatorCard.senator.name}}</span>
-                                <span class="md-subhead">District: {{hc.senatorCard.district}}</span>
-                                <span class="md-subhead">{{hc.senatorCard.senator.party}}</span>
-                                <a href="tel:+1{{hc.senatorCard.senator.phones[0]}}">{{hc.senatorCard.senator.phones[0]}}</a>
-                                <a href="{{hc.senatorCard.senator.urls[0]}}">Bio on senate.mn</a>
-                            </md-card-title-text>
-                        </md-card-title>
-
-                        <md-card-content flex layout="column">
-                            <div flex layout="column" class="md-media-xl card-media">
-                                <img flex  ng-src="{{hc.senatorCard.senator.photoUrl}}" />
-                            </div>
-                        </md-card-content>
-                    </md-card>
                 </div>
+
+                <md-card flex layout-gt-xs="row" layout="column" ng-if="hc.senatorToContact" ng-init="hc.convertSenator(hc.senatorToContact)">
+
+                    <md-card-title flex= layout="column">
+                        <md-card-title-text layout-padding layout-align="center center">
+                            <span class="name">{{hc.senatorCard.senator.name}}</span>
+                            <span class="party">
+                                 {{hc.senatorCard.senator.party}}
+                                </br>
+                                District: {{hc.senatorCard.district}}
+                            </span>
+                            <div flex layout="column" layout-align="center center">
+                                <a href="tel:+1{{hc.senatorCard.senator.phones[0]}}">{{hc.senatorCard.senator.phones[0]}}</a>
+                                <a href="{{hc.senatorCard.senator.urls[0]}}" target="_blank">Senate.mn - Profile</a>
+                            </div>
+                        </md-card-title-text>
+                    </md-card-title>
+
+                    <md-card-content flex layout="row" layout-padding>
+                        <div flex layout="row" class="md-media-xl card-media">
+                            <img flex ng-src="{{hc.senatorCard.senator.photoUrl}}" />
+                        </div>
+                    </md-card-content>
+                </md-card>
+                
             </md-card-content>
             <md-card-actions>
                 <form ng-if="hc.senatorToContact" name="mailForm" layout="column" flex layout-padding>

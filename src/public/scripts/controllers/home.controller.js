@@ -65,6 +65,14 @@ myApp.controller('HomeController', function ($http, vcRecaptchaService) {
 
     // send message and store data points in Database
     vm.sendMessage = () => {
+
+        // if google API doesn't have senator's email use below email
+        if (!vm.senatorCard.senator.emails[0]){
+            vm.message.senatorEmail = 'hunter@rancourt.pro';
+        } else {
+            vm.message.senatorEmail = vm.senatorCard.senator.emails[0];
+        }
+
         vm.message = {
             // include captcha things
         }; // end message
