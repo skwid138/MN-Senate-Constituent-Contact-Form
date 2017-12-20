@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS constituents;
 -- messages
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
-    message TEXT
+    message TEXT,
     senator_id INT
 );
 
