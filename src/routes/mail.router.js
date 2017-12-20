@@ -88,12 +88,47 @@ router.post('/', (req, res) => {
             html: '<p>' + message + '</p>'
         }; // end mailConfig
 
-
-        /*
-        need to setup DB route to add row with Constituent's data
-    
-        */
-
+        // add data to database
+        pool.connect((err, client, done) => {
+            if (err) {
+                console.log('Database connection error ->', err);
+                done();
+            } else {
+                const queryString = "INSERT INTO messages " +
+                    "(message)" +
+                    "VALUES ($1)" +
+                    "RETURNING id";
+                const values = [message];
+                // insert the message first
+                client.query(queryString, values, (queryErr, result) => {
+                    if (queryErr) {
+                        console.log('Query connection Error ->', queryErr);
+                    } else {
+                        // if insert is successful return the primary key to be used as foreign key
+                        const messageId = result.rows[0].id;
+                        pool.connect((error, clients, doneAgain) => {
+                            if (error) {
+                                console.log('Database connection error ->', error);
+                                doneAgain();
+                            } else {
+                                const constituentQueryString = "INSERT INTO constituents " +
+                                                    "(first_name, last_name, email, phone, address_one, address_two, city, state, zip, message_id)" +
+                                                    "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+                                const constituentValues = [name.first, name.last, emailAddress, phoneNumber, mailAddress.streetOne,
+                                                mailAddress.streetTwo, mailAddress.city, mailAddress.state, mailAddress.zip, messageId];
+                                client.query(constituentQueryString, constituentValues, (queErr, res) => {
+                                    if (queErr) {
+                                        console.log('Query connection Error ->', queErr); 
+                                    } 
+                                    doneAgain();
+                                }); // end query
+                            } // end else
+                        }); // end pool connect
+                    } // end else
+                    done();
+                }); // end query
+            } // end else
+        }); // end pool connect
 
         // send message using the above information
         transporter.sendMail(mailConfig, function (err, info) {

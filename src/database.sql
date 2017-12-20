@@ -6,14 +6,16 @@
 -- ** Drop Foreign Key Contraints ** --
 ALTER TABLE IF EXISTS constituents
     DROP CONSTRAINT IF EXISTS messages_fk;
-ALTER TABLE IF EXISTS senators
-    DROP CONSTRAINT IF EXISTS districts_fk;
+-- (no longer needed with google API)
+-- ALTER TABLE IF EXISTS senators
+--     DROP CONSTRAINT IF EXISTS districts_fk;
 
 
 -- ** Drop Tables** --
 DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS districts;
-DROP TABLE IF EXISTS senators;
+-- (no longer needed with google API)
+-- DROP TABLE IF EXISTS districts;
+-- DROP TABLE IF EXISTS senators;
 DROP TABLE IF EXISTS constituents;
 
 -- ** Create Tables ** --
@@ -22,13 +24,15 @@ DROP TABLE IF EXISTS constituents;
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     message TEXT
+    senator_id INT
 );
 
---districts
-CREATE TABLE districts (
-    id SERIAL PRIMARY KEY,
-    number INT
-);
+-- (no longer needed with google API)
+-- --districts
+-- CREATE TABLE districts (
+--     id SERIAL PRIMARY KEY,
+--     number INT
+-- );
 
 -- constituents
 CREATE TABLE constituents (
@@ -40,18 +44,19 @@ CREATE TABLE constituents (
     address_one VARCHAR(200),
     address_two VARCHAR(200),
     city VARCHAR(200),
-    state_abbr VARCHAR(5),
+    state VARCHAR(5),
     zip VARCHAR(10),
-    messages_id INT
+    message_id INT
 ); 
 
+-- (no longer needed with google API)
 -- senators
-CREATE TABLE senators (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    districts_id INT
-);
+-- CREATE TABLE senators (
+--     id SERIAL PRIMARY KEY,
+--     first_name VARCHAR(100),
+--     last_name VARCHAR(100),
+--     districts_id INT
+-- );
 
 
 -- ** Add Foreign Key Constraints ** --
@@ -63,11 +68,20 @@ ALTER TABLE constituents
         REFERENCES messages (id)
 ;
 
--- senators foreign key
-ALTER TABLE senators
-    ADD CONSTRAINT districts_fk
-        FOREIGN KEY (districts_id)
-        REFERENCES districts (id)
+-- (no longer needed with google API)
+-- -- messages foreign key
+-- ALTER TABLE messages
+--     ADD CONSTRAINT senator_fk
+--         FOREIGN KEY (senator_id)
+--         REFERENCES senator (id)
 ;
+
+-- (no longer needed with google API)
+-- -- senators foreign key
+-- ALTER TABLE senators
+--     ADD CONSTRAINT districts_fk
+--         FOREIGN KEY (districts_id)
+--         REFERENCES districts (id)
+-- ;
 
 -- ** Insert Mock Data ** --
