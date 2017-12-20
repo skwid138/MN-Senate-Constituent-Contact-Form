@@ -83,7 +83,7 @@ router.post('/', (req, res) => {
         // object to send
         const mailConfig = {
             from: contactCredentials.username,
-            to: senator,
+            to: senatorEmail,
             subject: subject,
             html: '<p>' + message + '</p>'
         }; // end mailConfig
@@ -105,7 +105,7 @@ router.post('/', (req, res) => {
                 res.sendStatus(200);
             } // end else
         }); // end message
-        
+
     }); // end request
 }); // end post
 
