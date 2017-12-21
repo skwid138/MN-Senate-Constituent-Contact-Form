@@ -35,5 +35,8 @@
     * <code>GOOGLE_API=[Google API key here]</code>
     * <code>SECRET=[Google reCaptcha secret here]</code>
     * <code>PORT=8080</code>
+- There is a SQL script that will setup the database
+    * Create a database named <code>mn-senate</code>
+    * run the <code>database.sql</code> script to setup the tables and constraints
 - From terminal run <code>npm start</code> (you'll see the console display 'server is listening on port'...)
 - Open a browser and visit the url 127.0.0.1:8080 (or port specified in .env file)
